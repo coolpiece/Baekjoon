@@ -22,7 +22,7 @@ int main(void) {
 			if (!check[i]) {
 				tc -= i;
 				if (!check[tc]) {
-					cout << tc << " " << i << endl;
+					cout << tc << " " << i << '\n';
 					break;
 				}
 				tc += i;
