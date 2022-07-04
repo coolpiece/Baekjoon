@@ -3,8 +3,8 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-void partition(int num[], int left, int right);
-void merge(int num[], int left, int mid, int right);
+void adjust(int num[], int root, int n);
+void heap(int num[], int n);
 
 int main(void) {
 	cin.tie(NULL);
@@ -12,36 +12,29 @@ int main(void) {
 
 	int n;
 	cin >> n;
-	int* num = new int[n];
-	for (int i = 0; i < n; i++) cin >> num[i];
-	partition(num, 0, n - 1);
+	int* num = new int[n + 1];
+	for (int i = 1; i <= n; i++) cin >> num[i];
+	
+	heap(num, n);
 
-	for (int i = 0; i < n; i++) cout << num[i] << '\n';
+	for (int i = 1; i <= n; i++) cout << num[i] << '\n';
 	delete[] num;
 }
 
-void partition(int num[], int left, int right) {
-	if (left < right) {
-		int mid = (left + right) / 2;
-		partition(num, left, mid);
-		partition(num, mid + 1, right);
-		merge(num, left, mid, right);
+void adjust(int num[], int root, int n) {
+	int x = num[root], i;
+	for (i = 2 * root; i <= n; i *= 2) {
+		if (i < n && num[i] < num[i + 1]) i++;
+		if (x >= num[i]) break;
+		num[i / 2] = num[i];
 	}
+	num[i / 2] = x;
 }
 
-void merge(int num[], int left, int mid, int right) {
-	int* sort = new int[right + 1];
-	int idx = left, idx1 = left, idx2 = mid + 1;
-	while (idx1 <= mid && idx2 <= right) {
-		if (num[idx1] > num[idx2]) sort[idx++] = num[idx2++];
-		else sort[idx++] = num[idx1++];
+void heap(int num[], int n) {
+	for (int i = n / 2; i >= 1; i--) adjust(num, i, n);
+	for (int i = n - 1; i >= 1; i--) {
+		swap(num[1], num[i + 1]);
+		adjust(num, 1, i);
 	}
-	if (idx1 > mid) // 1의 원소 모두 정렬 (2는 남음)
-		while (idx2 <= right) sort[idx++] = num[idx2++];
-	else // 반대
-		while (idx1 <= mid) sort[idx++] = num[idx1++];
-	
-	for (int i = left; i <= right; i++)
-		num[i] = sort[i];
-	delete[] sort;
 }
