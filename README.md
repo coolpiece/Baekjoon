@@ -6,6 +6,6 @@ This is a auto push repository for Baekjoon Online Judge created with [BaekjoonH
 <img align='right' src="http://mazassumnida.wtf/api/v2/generate_badge?boj=audxkawjd17">
 
 ```
-👉 github link : [https://github.com/coolpiece](https://github.com/coolpiece)
+👉 github link : https://github.com/coolpiece
 👉 boj id : audxkawjd17
 ```
