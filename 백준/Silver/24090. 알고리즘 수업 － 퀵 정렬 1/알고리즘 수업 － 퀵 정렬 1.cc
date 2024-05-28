@@ -1,54 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+vector<int> a(10000);
 int n, k, cnt = 0;
 
-int partition(int arr[], int p, int r) {
+int partition(int p, int r) {
     int x, i, tmp;
-    x = arr[r];  // pivot.
+    x = a[r];  // pivot.
     i = p - 1;
     for (int j = p; j < r; j++) {
-        if (arr[j] <= x) {
-            tmp = arr[j];
-            arr[j] = arr[++i];
-            arr[i] = tmp;
+        if (a[j] <= x) {
+            i++;
+            swap(a[i], a[j]);
             cnt++;
             if (cnt == k) {
-                cout << arr[i] << ' ' << arr[j] << '\n';
+                cout << a[i] << ' ' << a[j] << '\n';
                 return (-1);
             }
         }
     }
     if (i + 1 != r) {
-        tmp = arr[r];
-        arr[r] = arr[i + 1];
-        arr[i + 1] = tmp;
+        swap(a[r], a[i + 1]);
         cnt++;
         if (cnt == k) {
-            cout << arr[i + 1] << ' ' << arr[r] << '\n';
+            cout << a[i + 1] << ' ' << a[r] << '\n';
             return (-1);
         }
     }
     return i + 1;
 }
 
-void quick_sort(int arr[], int p, int r) {
+void quick_sort(int p, int r) { // int형 리턴하면 메모리 초과. -> void형으로 변경.
     int q;
     if (p < r) {
-        q = partition(arr, p, r);
+        q = partition(p, r);
         if (q == -1) return;
-        quick_sort(arr, p, q - 1);
-        quick_sort(arr, q + 1, r);
+        quick_sort(p, q - 1);
+        quick_sort(q + 1, r);
     }
 }
 
 int main() {
     ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
     cin >> n >> k;
-    int *arr = new int[n];
 
-    for (int i = 0; i < n; i++) cin >> arr[i];
-    quick_sort(arr, 0, n - 1);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    quick_sort(0, n - 1);
     if (cnt < k) cout << -1;
-
-    delete[] arr;
 }
