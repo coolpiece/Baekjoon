@@ -1,53 +1,7 @@
-char swit(char ch) {
-    if (ch == '1') return '`';
-    if (ch == '2') return '1';
-    if (ch == '3') return '2';
-    if (ch == '4') return '3';
-    if (ch == '5') return '4';
-    if (ch == '6') return '5';
-    if (ch == '7') return '6';
-    if (ch == '8') return '7';
-    if (ch == '9') return '8';
-    if (ch == '0') return '9';
-    if (ch == '-') return '0';
-    if (ch == '=') return '-';
-    if (ch == 'W') return 'Q';
-    if (ch == 'E') return 'W';
-    if (ch == 'R') return 'E';
-    if (ch == 'T') return 'R';
-    if (ch == 'Y') return 'T';
-    if (ch == 'U') return 'Y';
-    if (ch == 'I') return 'U';
-    if (ch == 'O') return 'I';
-    if (ch == 'P') return 'O';
-    if (ch == '[') return 'P';
-    if (ch == ']') return '[';
-    if (ch == '\\') return ']';
-    if (ch == 'S') return 'A';
-    if (ch == 'D') return 'S';
-    if (ch == 'F') return 'D';
-    if (ch == 'G') return 'F';
-    if (ch == 'H') return 'G';
-    if (ch == 'J') return 'H';
-    if (ch == 'K') return 'J';
-    if (ch == 'L') return 'K';
-    if (ch == ';') return 'L';
-    if (ch == '\'') return ';';
-    if (ch == 'X') return 'Z';
-    if (ch == 'C') return 'X';
-    if (ch == 'V') return 'C';
-    if (ch == 'B') return 'V';
-    if (ch == 'N') return 'B';
-    if (ch == 'M') return 'N';
-    if (ch == ',') return 'M';
-    if (ch == '.') return ',';
-    if (ch == '/') return '.';
-    return ch;
-}
-
 #include <bits/stdc++.h>
 using namespace std;
 
+string s = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;\'ZXCVBNM,./";
 int main(void) {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -57,8 +11,10 @@ int main(void) {
         for (int i = 0; i < str.size(); i++) {
             if (str[i] == ' ')
                 cout << ' ';
-            else
-                cout << swit(str[i]);
+            else {
+                int idx = s.find(str[i]);
+                cout << s[idx - 1];
+            }
         }
         cout << '\n';
     }
