@@ -1,22 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, M;
-vector<int> v(7);
-vector<int> output(7);
+int n, m;
+vector<int> num;
+vector<int> arr(8);
 
-void backtracking(int cnt) {
-    if (cnt == M) { // M개를 다 고른 경우.
-        for (int i = 0; i < M; i++) {
-            cout << output[i] << " ";
-        }
+void dfs(int dep) {
+    if (dep == m) {
+        for (int i = 0; i < m; i++) cout << arr[i] << ' ';
         cout << '\n';
         return;
     }
 
-    for (int i = 0; i < N; i++) {
-        output[cnt] = v[i];
-        backtracking(cnt + 1);
+    for (int i = 0; i < n; i++) {
+        arr[dep] = num[i];
+        dfs(dep + 1);
     }
 }
 
@@ -24,8 +22,12 @@ int main(void) {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    cin >> N >> M;
-    for (int i = 0; i < N; i++) cin >> v[i];
-    sort(v.begin(), v.begin() + N);
-    backtracking(0);
+    cin >> n >> m;
+    for (int i = 0; i < n; i++) {
+        int tmp;
+        cin >> tmp;
+        num.push_back(tmp);
+    }
+    sort(num.begin(), num.end());
+    dfs(0);
 }
