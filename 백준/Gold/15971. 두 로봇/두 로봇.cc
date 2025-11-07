@@ -8,15 +8,15 @@ int main(void) {
 
     int n, b, e;
     cin >> n >> b >> e;
-    vector<vector<int>> v(n + 1, vector<int>(n + 1));
+    vector<vector<pair<int, int>>> v(n + 1);
     vector<int> dis(n + 1);
     vector<int> maxpass(n + 1);
 
     for (int i = 0; i < n - 1; i++) {
         int p, q, l;
         cin >> p >> q >> l;
-        v[p][q] = l;
-        v[q][p] = l;
+        v[p].push_back(make_pair(q, l));
+        v[q].push_back(make_pair(p, l));
     }
     for (int i = 1; i <= n; i++) dis[i] = MAX;
 
@@ -26,17 +26,15 @@ int main(void) {
     maxpass[b] = 0;
     while (!s.empty()) {
         int cur = s.top();
-        for (int i = 1; i <= n; i++) {
-            if (v[cur][i] > 0) {
-                if (dis[i] == MAX || dis[i] > dis[cur] + v[cur][i]) {
-                    s.push(i);
-                    dis[i] = dis[cur] + v[cur][i];
-                    maxpass[i] = max(maxpass[cur], v[cur][i]);
-                    break;
-                }
+        for (int i = 0; i < v[cur].size(); i++) {
+            int next = v[cur][i].first;
+            if (dis[next] == MAX) {
+                s.push(next);
+                dis[next] = dis[cur] + v[cur][i].second;
+                maxpass[next] = max(maxpass[cur], v[cur][i].second);
             }
-            if (i == n) s.pop();  // 더 이상 나아갈 곳이 없는 경우.
         }
+        if (cur == s.top()) s.pop();  // 더 이상 나아갈 곳이 없는 경우.
     }
     cout << dis[e] - maxpass[e];
 }
