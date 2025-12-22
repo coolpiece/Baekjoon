@@ -10,10 +10,8 @@ int main(void) {
     string str;
     while (cin >> str) {
         if (str.size() % 2) str.pop_back();
-        for (int i = 0; !str.empty() && i < str.size() - 1;) {
+        for (int i = 0; !str.empty() && i < str.size() - 1; i+=2)
             cout << (char)((str[i] - 'a' + str[i + 1] - 'a' - n + 26) % 26 + 'a');
-            i += 2;
-        }
         cout << ' ';
     }
 }
