@@ -8,19 +8,24 @@ public class Solution {
 			int T = Integer.parseInt(br.readLine());
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			Queue<Integer> q = new LinkedList<>();
-			for (int i = 0; i < 8; i++)
-				q.add(Integer.parseInt(st.nextToken()));
-x:			while (true) {
-				for (int i = 1; i <= 5; i++) {
-					int tmp = q.poll() - i;
-					if (tmp <= 0) {
-						q.add(0);
-						break x;
-					}
-					q.add(tmp);
-				}
+
+			int x = Integer.MAX_VALUE / 15;
+			for (int i = 0; i < 8; i++) {
+				int input = Integer.parseInt(st.nextToken());
+				x = Math.min(x, input / 15 - 1);
+				q.add(input);
 			}
-			System.out.println("#" + T);
+			for (int i = 0; i < 8; i++)
+				q.add(q.poll() - 15 * x);
+			int cycle = 1;
+			while (true) {
+				int tmp = Math.max(0, q.poll() - cycle);
+				q.offer(tmp);
+				if (tmp == 0)
+					break;
+				cycle = cycle % 5 + 1;
+			}
+			System.out.print("#" + T + " ");
 			for (int i = 0; i < 8; i++)
 				System.out.print(q.poll() + " ");
 			System.out.println();
