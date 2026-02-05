@@ -2,8 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
-	public static boolean[] picked = new boolean[19];
-	static int[] iy, gy;
+	static int[] iy = new int[9], gy = new int[9];
 	static int winCnt, loseCnt;
 
 	public static void main(String args[]) throws Exception {
@@ -13,9 +12,7 @@ public class Solution {
 
 		int T = Integer.parseInt(br.readLine());
 		for (int t = 1; t <= T; t++) {
-			picked = new boolean[19];
-			iy = new int[9];
-			gy = new int[9];
+			boolean[] picked = new boolean[19];
 			winCnt = 0;
 			loseCnt = 0;
 			st = new StringTokenizer(br.readLine());
@@ -24,34 +21,28 @@ public class Solution {
 				picked[pick] = true;
 				gy[i] = pick;
 			}
-			permutation(0);
+			for (int i = 1, idx = 0; i <= 18; i++)
+				if (!picked[i])
+					iy[idx++] = i;
+			permutation(0, 0, 0);
 			rst.append("#").append(t).append(" ").append(winCnt).append(" ").append(loseCnt).append("\n");
 		}
 		System.out.println(rst);
 	}
 
-	public static void permutation(int cnt) {
+	public static void permutation(int cnt, int flag, int score) {
 		if (cnt == 9) {
-			battle();
+			if (score > 0)
+				winCnt++;
+			else if (score < 0)
+				loseCnt++;
 			return;
 		}
-		for (int i = 1; i <= 18; i++) {
-			if (picked[i])
+		for (int i = 0; i < 9; i++) {
+			if ((flag & (1 << i)) != 0)
 				continue;
-			iy[cnt] = i;
-			picked[i] = true;
-			permutation(cnt + 1);
-			picked[i] = false;
+			int sum = ((iy[i] < gy[cnt]) ? 1 : -1) * (iy[i] + gy[cnt]);
+			permutation(cnt + 1, flag | (1 << i), score + sum);
 		}
-	}
-
-	public static void battle() {
-		int score = 0;
-		for (int i = 0; i < 9; i++)
-			score += (iy[i] < gy[i]) ? iy[i] + gy[i] : -(iy[i] + gy[i]);
-		if (score > 0)
-			winCnt++;
-		else if (score < 0)
-			loseCnt++;
 	}
 }
