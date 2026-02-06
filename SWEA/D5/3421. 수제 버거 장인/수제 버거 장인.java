@@ -1,3 +1,4 @@
+/*
 import java.io.*;
 import java.util.*;
 
@@ -27,5 +28,53 @@ public class Solution {
 			rst.append("#").append(t).append(" ").append(cnt).append("\n");
 		}
 		System.out.println(rst);
+	}
+}
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+	private static int n, m, ans;
+	private static boolean[] isSelected;
+	private static Set<int[]> set;
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder rst = new StringBuilder(100);
+		int T = Integer.parseInt(br.readLine());
+		for (int t = 1; t <= T; t++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			n = Integer.parseInt(st.nextToken());
+			m = Integer.parseInt(st.nextToken());
+			ans = 0;
+			isSelected = new boolean[n];
+			set = new HashSet<>();
+			for (int i = 0; i < m; i++) {
+				st = new StringTokenizer(br.readLine());
+				int a = Integer.parseInt(st.nextToken()) - 1, b = Integer.parseInt(st.nextToken()) - 1;
+				set.add(new int[] { a, b });
+			}
+			com(0);
+			rst.append("#").append(t).append(" ").append(ans).append("\n");
+		}
+		System.out.println(rst);
+	}
+
+	public static void com(int cnt) {
+		if (cnt == n) {
+			for (int[] i : set) {
+				if (isSelected[i[0]] && isSelected[i[1]] == true) // 겹치는 경우.
+					return;
+			}
+			ans++;
+			return;
+		}
+
+		isSelected[cnt] = false;
+		com(cnt + 1);
+		isSelected[cnt] = true;
+		com(cnt + 1);
 	}
 }
