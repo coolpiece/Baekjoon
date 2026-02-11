@@ -13,17 +13,18 @@ class Atom {
 }
 
 public class Solution {
+	private static ArrayDeque<Atom> list = new ArrayDeque<>(); // 원소 목록 저장.
+	// 중간에 충돌하는 경우를 정수 시간으로 계산하기 위해 좌표를 2배.
+	private static int[][] map = new int[4001][4001]; // 좌표 저장. 충돌 확인.
+	private static int[] dx = new int[] { 0, 0, -1, 1 }, dy = new int[] { 1, -1, 0, 0 };
+
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		StringBuilder rst = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
-		int[] dx = new int[] { 0, 0, -1, 1 }, dy = new int[] { 1, -1, 0, 0 };
 		for (int t = 1; t <= T; t++) {
 			int n = Integer.parseInt(br.readLine()), total = 0;
-			// 중간에 충돌하는 경우를 정수 시간으로 계산하기 위해 좌표를 2배.
-			ArrayDeque<Atom> list = new ArrayDeque<>(); // 원소 목록 저장.
-			int[][] map = new int[4001][4001]; // 좌표 저장. 충돌 확인.
 			for (int i = 0; i < n; i++) {
 				st = new StringTokenizer(br.readLine());
 				int x = Integer.parseInt(st.nextToken()), y = Integer.parseInt(st.nextToken()),
