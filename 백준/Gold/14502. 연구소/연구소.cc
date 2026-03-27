@@ -18,8 +18,8 @@ struct Cell {
 	Cell(int r, int c) : r(r), c(c) {}
 };
 
-void combi(vector<vector<int>>, int, int);
-int virus(vector<vector<int>>);
+void combi(vector<vector<int>>&, int, int);
+int virus(vector<vector<int>>&);
 
 vector<Cell> blank; // 빈칸 위치 저장.
 queue<Cell> virusPos; // 바이러스 위치 저장.
@@ -46,7 +46,7 @@ int main(void) {
 	cout << maxVal;
 }
 
-void combi(vector<vector<int>> board, int start, int cnt) {
+void combi(vector<vector<int>> &board, int start, int cnt) {
 	if (cnt == 3) {
 		maxVal = max(maxVal, virus(board));
 		return;
@@ -55,15 +55,16 @@ void combi(vector<vector<int>> board, int start, int cnt) {
 	for (int i = start; i < blank.size(); i++) {
 		board[blank[i].r][blank[i].c] = 1;
 		combi(board, i + 1, cnt + 1);
-		board[blank[i].r][blank[i].c] = 0; //되돌리기.
+		board[blank[i].r][blank[i].c] = 0; // 되돌리기.
 	}
 }
 
-int virus(vector<vector<int>> board) {
+int virus(vector<vector<int>> &originBoard) {
+	vector<vector<int>> board = originBoard;
 	queue<Cell> q = virusPos;
 	int blankCnt = blank.size() - 3;
 
-	while (!q.empty()) {  // 바이러스 확산.
+	while (!q.empty()) { // 바이러스 확산.
 		Cell cur = q.front();
 		q.pop();
 		for (int i = 0; i < 4; i++) {
@@ -74,7 +75,7 @@ int virus(vector<vector<int>> board) {
 			blankCnt--;
 
 			// 빈칸의 수가 지금까지 구한 최대 안전 영역크기보다 작으면 가지치기.
-			if (blankCnt < maxVal) return 0;
+			if (blankCnt <= maxVal) return 0;
 
 			q.emplace(nr, nc);
 		}
