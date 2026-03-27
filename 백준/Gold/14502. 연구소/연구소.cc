@@ -46,6 +46,8 @@ int main(void) {
 	cout << maxVal;
 }
 
+// 수정: combi 함수에서는 board를 사용하지 않음. (virus 함수로 전달하기 용.)
+// -> 값으로 전달하는 대신 참조(&)를 전달하고, virus 함수 내에서 board를 복사하여 사용.
 void combi(vector<vector<int>> &board, int start, int cnt) {
 	if (cnt == 3) {
 		maxVal = max(maxVal, virus(board));
@@ -60,7 +62,7 @@ void combi(vector<vector<int>> &board, int start, int cnt) {
 }
 
 int virus(vector<vector<int>> &originBoard) {
-	vector<vector<int>> board = originBoard;
+	vector<vector<int>> board = originBoard; // 넘겨 받은 원본 board를 복사하여 사용.
 	queue<Cell> q = virusPos;
 	int blankCnt = blank.size() - 3;
 
