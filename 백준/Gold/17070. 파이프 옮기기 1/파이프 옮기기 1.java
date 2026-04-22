@@ -19,18 +19,18 @@ public class Main {
 
 		dp[0][1][2] = 1;
 		for (int r = 1; r <= n; r++) {
-			for (int c = 1; c <= n; c++) {
+			for (int c = 3; c <= n; c++) {
 				// 벽이면 패스.
 				if (home[r][c] == 1)
 					continue;
 
 				// 가로로 도착하는 경우.
-				dp[0][r][c] += dp[0][r][c - 1] + dp[2][r][c - 1];
+				dp[0][r][c] = dp[0][r][c - 1] + dp[2][r][c - 1];
 				// 세로로 도착하는 경우.
-				dp[1][r][c] += dp[1][r - 1][c] + dp[2][r - 1][c];
+				dp[1][r][c] = dp[1][r - 1][c] + dp[2][r - 1][c];
 				// 대각선으로 도착하는 경우.
 				if (home[r - 1][c] != 1 && home[r][c - 1] != 1)
-					dp[2][r][c] += dp[0][r - 1][c - 1] + dp[1][r - 1][c - 1] + dp[2][r - 1][c - 1];
+					dp[2][r][c] = dp[0][r - 1][c - 1] + dp[1][r - 1][c - 1] + dp[2][r - 1][c - 1];
 			}
 		}
 		
